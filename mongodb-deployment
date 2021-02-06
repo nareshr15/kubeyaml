@@ -1,0 +1,48 @@
+---
+apiversion: v1
+kind: deployment
+metadata:
+ name: mongodb-deployment
+ labels:
+  app: mongodb
+spec:
+ replicas: 1
+ selector:
+  matchLabels: 
+   app: mongodb
+ template:
+  metadata:
+   labels:
+    app: mongodb
+  spec:
+   containers:
+   -name: mongodb
+   image: mongo
+   ports:
+   -containerport: 27017
+   env:
+   name: MONGO_INITDB_ROOT_USERNAME
+   ValueFrom:
+    SecretKeyRef:
+     name: mongodb-secret
+     key: mongo-root-user
+   name: MONGO_INITDB_ROOT_PASSWORD
+   valueFrom:
+    SecretKeyRef:
+     name: mongodb-secret
+     key: mongo-root-password
+
+
+---
+apiversion: v1
+kind: sevice
+metadata: 
+ name: mongodb-sevice
+ labels
+spec:
+ selector:
+  app: mongodb
+ ports:
+ -protocol: TCP
+ port: 27017 
+ targetport: 27017
