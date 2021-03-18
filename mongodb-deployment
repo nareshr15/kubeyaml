@@ -31,14 +31,13 @@ spec:
     SecretKeyRef:
      name: mongodb-secret
      key: mongo-root-password
-
-
 ---
 apiversion: v1
 kind: sevice
 metadata: 
  name: mongodb-sevice
- labels
+ labels:
+  app: mongodb
 spec:
  selector:
   app: mongodb
